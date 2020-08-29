@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../layui/css/layui.css" media="all">
+		<script src="../../layui/layui.js" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="layui-upload-drag" id="test10" style="width: 90%; height: 330px;">
+			<i class="layui-icon"></i>
+			<p>点击上传，或将文件拖拽到此处</p>
+			<div class="layui-hide" id="uploadDemoView">
+				<hr>
+				<img src="" alt="上传成功后渲染" style="max-width: 196px">
+			</div>
+		</div>
+		<script>
+			layui.use('upload', function() {
+				var $ = layui.jquery,
+					upload = layui.upload;
+
+				//拖拽上传
+				upload.render({
+					elem: '#test10',
+					url: 'https://httpbin.org/post', //改成您自己的上传接口
+						
+					done: function(res) {
+						layer.msg('上传成功');
+						layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.files.file);
+						console.log(res)
+					}
+				});
+			});
+		</script>
+
+</html>

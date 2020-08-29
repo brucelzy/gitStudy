@@ -1,0 +1,499 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>系统前台</title>
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+		<script src="../layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../js/jquery-2.1.0.js" ></script>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			body {
+				background-color: #EB7350;
+				background-image: url(../img/001356-159094163647cf.jpg);
+				background-size: cover;
+				overflow:-Scroll;
+				overflow-x:hidden
+			}
+			
+			.write_color {
+				color: white;
+			}
+			
+			.font_mianb {
+				font-size: 20px;
+				font-weight: bold;
+			}
+			
+			#max {
+				width: 900px;
+				margin: auto;
+				padding-top: 15px;
+				background-color: #3F3F3F;
+			}
+			
+			#top_img {
+				display: inline-block;
+				width: 100%;
+				height: 90px;
+				background: url(../img/7.25.0_5b29fa335c8c9.jpg);
+				margin-bottom: -13px;
+				color: white;
+			}
+			
+			#lunbtu {
+				margin-left: -10px;
+				margin-top: -10px;
+			}
+			
+			#foot_div {
+				background-color: #D9D9D9;
+				padding-left: 350px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="max">
+			<div id="top">
+				<span class="write_color" id="user"></span>&nbsp;&nbsp;
+				<span class="write_color" id="gettime"></span>
+				<div style="float: right;">
+					<i class="layui-icon layui-icon-email" style="font-size: 20px; color: white;"></i><span class="layui-badge-dot"></span>|
+					<i class="layui-icon layui-icon-list" style="font-size: 20px; color: white;"></i><span class="layui-badge-dot"></span>|
+					<a id="backBtn" class="write_color">后台管理</a>|
+					<a href="#" class="write_color">个人中心</a>|
+					<a href="#" class="write_color" id="outBtn">安全退出</a>|
+				</div>
+			</div>
+			<div id="top_img">
+				<table height="90px" width="590px">
+					<tr>
+						<td>
+							<span id="logo" style="color: red;font-size: 28px;font-family: kartika;">
+								LOGO
+							</span>
+						</td>
+						<td>
+							<a href="#" style="font-size: 28px;color: white;">郑州AAA</a>
+						</td>
+						<td>
+							women yizhi zhili yu zuihao de fufu <br /> shiwei le rangwomen de tuanti fazhao de genghao !
+						</td>
+					</tr>
+				</table>
+
+			</div>
+
+			<!--卡片风格tab-->
+			<div class="layui-tab layui-tab-card" style="border: 0;">
+				<ul class="layui-tab-title">
+					<li class="layui-this">首页</li>
+					<li>新闻中心</li>
+					<li>党工团园地</li>
+					<li>运营分析</li>
+					<li>信息超市</li>
+					<li>培训管理</li>
+					<li>综合管理</li>
+					<li>人力资源</li>
+					<li>运营支撑</li>
+				</ul>
+				<div class="layui-tab-content" style="height: auto; overflow: hidden;">
+					<!--首页-->
+					<div class="layui-tab-item layui-show">
+						<div id="lunbtu">
+							<div class="layui-carousel" id="test10">
+								<div carousel-item="">
+									<div><img src="../img/24763acc30085ed58fed66c1c36d5f9c.jpg" width: '895px' height: '300x'></div>
+									<div><img src="../img/24763acc30085ed58fed66c1c36d5f9c.jpg" width: '895px' height: '300px'></div>
+									<div><img src="../img/24763acc30085ed58fed66c1c36d5f9c.jpg" width: '895px' height: '300px'></div>
+								</div>
+							</div>
+						</div>
+						<div style="background-color: #3F3F3F; padding-top: 10px;">
+							<div class="layui-row layui-col-space15">
+								<div class="layui-col-md4" style="height: auto;">
+									<div class="layui-card">
+										<div class="layui-card-header font_mianb">个人中心</div>
+										<div class="layui-card-body">
+											<center>
+												<div class="layui-inline">
+													<img src="../img/24763acc30085ed58fed66c1c36d5f9c.jpg" height="55px" width="55px" class="layui-circle">
+												</div>
+											</center>
+											<div style="margin-left: 20px;padding-bottom:20px ;">
+												<p>姓名：XXX</p>
+												<p>职位：XXX </p>
+												<p>部门：XXX </p>
+												<button type="button" class="layui-btn layui-btn-xs layui-btn-radius">进入后台</button>
+												<!--未打卡为警告，打过后为绿色，刷新周期一天-->
+												<button type="button" class="layui-btn layui-btn-xs layui-btn-danger layui-btn-radius">打卡签到</button>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<div class="layui-col-md8">
+									<div class="layui-card">
+										<div class="layui-card-header font_mianb">公司公告</div>
+										<div class="layui-card-body">
+											<div class="layui-collapse" lay-accordion="">
+												<div class="layui-colla-item">
+													<h2 class="layui-colla-title">layui 更适合哪些开发者？</h2>
+													<div class="layui-colla-content">
+														<p>在前端技术快速变革的今天，layui 仍然坚持语义化的组织模式，甚至于模块理念都是采用类AMD组织形式，并非是有意与时代背道而驰。layui 认为以jQuery为核心的开发方式还没有到完全消亡的时候，而早期市面上基于jQuery的UI都普通做得差强人意，所以需要有一个新的UI去重新为这一领域注入活力，并采用一些更科学的架构方式。
+															<br> 因此准确地说，layui 更多是面向那些追求开发简单的前端工程师们，以及所有层次的服务端程序员。</p>
+													</div>
+												</div>
+												<div class="layui-colla-item">
+													<h2 class="layui-colla-title">为什么JS社区大量采用未发布或者未广泛支持的语言特性？</h2>
+													<div class="layui-colla-content">
+														<p>有不少其他答案说是因为JS太差。我下面的答案已经说了，这不是根本性的原因。但除此之外，我还要纠正一些对JS具体问题的误解。JS当初是被作为脚本语言设计的，所以某些问题并不是JS设计得差或者是JS设计者的失误。比如var的作用域问题，并不是“错误”，而是当时绝大部分脚本语言都是这样的，如perl/php/sh等。模块的问题也是，脚本语言几乎都没有模块/命名空间功能。弱类型、for-in之类的问题也是，只不过现在用那些老的脚本语言的人比较少，所以很多人都误以为是JS才有的坑。另外有人说JS是半残语言，满足不了开发需求，1999年就该死。半残这个嘛，就夸张了。JS虽然有很多问题，但是设计总体还是优秀的。——来自知乎@贺师俊</p>
+													</div>
+												</div>
+												<div class="layui-colla-item">
+													<h2 class="layui-colla-title">为什么前端工程师多不愿意用 Bootstrap 框架？</h2>
+													<div class="layui-colla-content">
+														<p>因为不适合。如果希望开发长期的项目或者制作产品类网站，那么就需要实现特定的设计，为了在维护项目中可以方便地按设计师要求快速修改样式，肯定会逐步编写出各种业务组件、工具类，相当于为项目自行开发一套框架。——来自知乎@Kayo</p>
+													</div>
+												</div>
+												<div class="layui-colla-item">
+													<h2 class="layui-colla-title">贤心是男是女？</h2>
+													<div class="layui-colla-content">
+														<p>man！ 所以这个问题不要再出现了。。。</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="layui-col-md12">
+									<div class="layui-card">
+										<div class="layui-card-header font_mianb">公司新闻</div>
+										<div class="layui-card-body">
+											<ul class="layui-timeline">
+												<li class="layui-timeline-item">
+													<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+													<div class="layui-timeline-content layui-text">
+														<h3 class="layui-timeline-title">8月18日</h3>
+														<p>
+															layui 2.0 的一切准备工作似乎都已到位。发布之弦，一触即发。
+															<br>不枉近百个日日夜夜与之为伴。因小而大，因弱而强。
+															<br>无论它能走多远，抑或如何支撑？至少我曾倾注全心，无怨无悔 <i class="layui-icon"></i>
+														</p>
+													</div>
+												</li>
+												<li class="layui-timeline-item">
+													<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+													<div class="layui-timeline-content layui-text">
+														<h3 class="layui-timeline-title">8月16日</h3>
+														<p>杜甫的思想核心是儒家的仁政思想，他有“<em>致君尧舜上，再使风俗淳</em>”的宏伟抱负。个人最爱的名篇有：</p>
+														<ul>
+															<li>《登高》</li>
+															<li>《茅屋为秋风所破歌》</li>
+														</ul>
+													</div>
+												</li>
+												<li class="layui-timeline-item">
+													<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+													<div class="layui-timeline-content layui-text">
+														<h3 class="layui-timeline-title">8月15日</h3>
+														<p>
+															中国人民抗日战争胜利72周年
+															<br>常常在想，尽管对这个国家有这样那样的抱怨，但我们的确生在了最好的时代
+															<br>铭记、感恩
+															<br>所有为中华民族浴血奋战的英雄将士
+															<br>永垂不朽
+														</p>
+													</div>
+												</li>
+												<li class="layui-timeline-item">
+													<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+													<div class="layui-timeline-content layui-text">
+														<div class="layui-timeline-title">过去</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="layui-tab-item">新闻中心</div>
+					<div class="layui-tab-item">党工团园地</div>
+					<div class="layui-tab-item">运营分析</div>
+					<div class="layui-tab-item">信息超市</div>
+					<div class="layui-tab-item">培训管理</div>
+					<!--综合管理-->
+					<div class="layui-tab-item">
+						<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+							<ul class="layui-tab-title">
+								<li class="layui-this">网站设置</li>
+								<li>用户管理</li>
+								<li>我的云盘</li>
+								<li>商品管理</li>
+								<li>订单管理</li>
+							</ul>
+							<div class="layui-tab-content" style="height: 100px;">
+								<div class="layui-tab-item layui-show">内容不一样是要有，因为你可以监听tab事件（阅读下文档就是了）</div>
+								<div class="layui-tab-item">内容2</div>
+								<!--个人云盘-->
+								<div class="layui-tab-item">
+									<div class="layui-row">
+										<div class="layui-col-md12">
+											<div class="layui-row grid-demo">
+												<div class="layui-col-md12">
+													<div class="grid-demo  layui-bg-blue" style="height: 35px;color: white;font-size: 25px;border-bottom: 1px white solid;">
+														AAA云盘
+													</div>
+												</div>
+												<div class="layui-col-md3">
+													<div class="grid-demo  layui-bg-blue" style="height: 400px;">
+														<ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="width: 100%;height: 100%;background-color: #1E9FFF;">
+															<li class="layui-nav-item layui-nav-item">
+																<a href="javascript:;">所有文件</a>
+															</li>
+															<li class="layui-nav-item layui-nav-item">
+																<a href="javascript:;">我的视频</a>
+															</li>
+															<li class="layui-nav-item layui-nav-item">
+																<a href="javascript:;">我的音乐</a>
+															</li>
+															<li class="layui-nav-item layui-nav-item">
+																<a href="javascript:;">我的图片</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="layui-col-md9">
+													<div class="grid-demo  " style="height: 400px;">
+														<iframe src="aaayun/fristyun.html" width="100%" height="100%" style="border: 0;">
+															<div class="layui-upload-drag" id="test10">
+																<i class="layui-icon"></i>
+																<p>点击上传，或将文件拖拽到此处</p>
+																<div class="layui-hide" id="uploadDemoView">
+																	<hr>
+																	<img src="" alt="上传成功后渲染" style="max-width: 196px">
+																</div>
+															</div>
+														</iframe>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="layui-tab-item">内容4</div>
+									<div class="layui-tab-item">内容5</div>
+								</div>
+							</div>
+						</div>
+						<!--人力资源-->
+						<div class="layui-tab-item">
+							<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+								<ul class="layui-tab-title">
+									<li class="layui-this">网站设置</li>
+									<li>用户管理</li>
+									<li>权限分配</li>
+									<li>商品管理</li>
+									<li>订单管理</li>
+								</ul>
+								<div class="layui-tab-content" style="height: 100px;">
+									<div class="layui-tab-item layui-show">内容不一样是要有，因为你可以监听tab事件（阅读下文档就是了）</div>
+									<div class="layui-tab-item">内容2</div>
+									<div class="layui-tab-item">内容3</div>
+									<div class="layui-tab-item">内容4</div>
+									<div class="layui-tab-item">内容5</div>
+								</div>
+							</div>
+						</div>
+						<div class="layui-tab-item">运营支撑</div>
+					</div>
+				</div>
+				<div id="foot_div">
+					<div class="layui-footer footer footer-doc">
+						<div class="layui-main">
+							<p>© 2020
+								<a href="/">layui.com</a> MIT license</p>
+							<p>
+								<a href="https://gitee.com/sentsin/layui" target="_blank" rel="nofollow">郑州</a>
+								<a href="javascript:;" site-event="weixinmp">AAA</a>
+								<a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow">豫ICP备13006272号-2</a>
+							</p>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--top_tab.js-->
+			<script>
+				var username = localStorage.getItem("username");
+				var userinfo= JSON.parse(localStorage.getItem("userinfo"));
+				//console.log(JSON.stringify(userinfo));
+				console.log(userinfo);
+				for(var a in userinfo){
+					console.log(a+":"+userinfo[a])
+				}
+				var  accessToken  = localStorage.getItem("at");	
+				layui.use(['carousel', 'form', 'element', 'upload'], function() {
+					var $ = layui.jquery,
+						element = layui.element, //Tab的切换功能，切换事件监听等，需要依赖element模块
+						carousel = layui.carousel,
+						form = layui.form,
+						upload = layui.upload;
+
+					//触发事件
+					var active = {
+						tabAdd: function() {
+							//新增一个Tab项
+							element.tabAdd('demo', {
+								title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+									,
+								content: '内容' + (Math.random() * 1000 | 0),
+								id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+							})
+						},
+						tabDelete: function(othis) {
+							//删除指定Tab项
+							element.tabDelete('demo', '44'); //删除：“商品管理”
+
+							othis.addClass('layui-btn-disabled');
+						},
+						tabChange: function() {
+							//切换到指定Tab项
+							element.tabChange('demo', '22'); //切换到：用户管理
+						}
+					};
+
+					$('.site-demo-active').on('click', function() {
+						var othis = $(this),
+							type = othis.data('type');
+						active[type] ? active[type].call(this, othis) : '';
+					});
+
+					//Hash地址的定位
+					var layid = location.hash.replace(/^#test=/, '');
+					element.tabChange('test', layid);
+
+					element.on('tab(test)', function(elem) {
+						location.hash = 'test=' + $(this).attr('lay-id');
+					});
+
+					//图片轮播
+					carousel.render({
+						elem: '#test10',
+						width: '900px',
+						height: '300px',
+						interval: 5000
+					});
+					//事件
+					carousel.on('change(test4)', function(res) {
+						console.log(res)
+					});
+
+					var $ = layui.$,
+						active = {
+							set: function(othis) {
+								var THIS = 'layui-bg-normal',
+									key = othis.data('key'),
+									options = {};
+
+								othis.css('background-color', '#5FB878').siblings().removeAttr('style');
+								options[key] = othis.data('value');
+								ins3.reload(options);
+							}
+						};
+					//监听开关
+					form.on('switch(autoplay)', function() {
+						ins3.reload({
+							autoplay: this.checked
+						});
+					});
+
+					$('.demoSet').on('keyup', function() {
+						var value = this.value,
+							options = {};
+						if(!/^\d+$/.test(value)) return;
+
+						options[this.name] = value;
+						ins3.reload(options);
+					});
+
+					//其它示例
+					$('.demoTest .layui-btn').on('click', function() {
+						var othis = $(this),
+							type = othis.data('type');
+						active[type] ? active[type].call(this, othis) : '';
+					});
+					//拖拽上传
+				upload.render({
+					elem: '#test10',
+					url: 'https://httpbin.org/post' //改成您自己的上传接口
+						,
+					done: function(res) {
+						layer.msg('上传成功');
+						layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.files.file);
+						console.log(res)
+					}
+				});
+
+				});
+				$("#backBtn").click(function(){
+					if(username==""||username==null||username==undefined){
+						window.location.href="../login.html"
+					}else{
+						window.location.href="../back_html/main.html"
+					}
+				})
+				if(username!=""&&username!=null&&username!=undefined){
+					$("#user").html("你好，<a href='../login.html' style='color: greenyellow;'>"+username+"</a>")
+					
+				}else{
+					$("#user").html("你好，<a href='../login.html' style='color: red;'>未登录</a>");
+				}
+				function getTime(){
+					var data = new Date;
+					$("#gettime").html("当前时间:"+data.toLocaleString());
+				}
+				$("#gettime").ready(function(){
+					setInterval("getTime()",1000)
+				})
+				
+			
+				//退出登录
+				$("#outBtn").click(function(){
+					if(username!=""&&username!=null&&username!=undefined){
+						$.ajax({
+							type:"get",
+							url:"http://192.168.20.45:8888/sls/slss/loginOut",
+							async:true,
+							dataType:"json",
+							data:{"accessToken":accessToken,"username":username},
+							success:function (result) {
+								console.log(result);
+								if(result){
+									localStorage.clear();
+									window.location.href='index.html';
+								}else{
+									alert("退出失败")
+								}
+						
+								}
+						})
+					}else{
+						alert("未登录")
+					}
+				
+				})
+				
+			</script>
+		
+	</body>
+
+</html>

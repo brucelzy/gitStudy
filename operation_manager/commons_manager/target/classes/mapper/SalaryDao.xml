@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.SalaryDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aaa.entity.Salary">
+        <id column="salary_id" property="salaryId" />
+        <result column="department_id" property="departmentId" />
+        <result column="role_id" property="roleId" />
+        <result column="user_id" property="userId" />
+        <result column="should_salary" property="shouldSalary" />
+        <result column="rewards" property="rewards" />
+        <result column="five_insurancefund" property="fiveInsurancefund" />
+        <result column="individual_tax" property="individualTax" />
+        <result column="actual_salary" property="actualSalary" />
+        <result column="achievements" property="achievements" />
+        <result column="apply_time" property="applyTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        salary_id AS salaryId, department_id AS departmentId, role_id AS roleId, user_id AS userId, should_salary AS shouldSalary, rewards, five_insurancefund AS fiveInsurancefund, individual_tax AS individualTax, actual_salary AS actualSalary, achievements, apply_time AS applyTime, status AS status
+    </sql>
+    <insert id="addBatchSalary">
+
+        <foreach collection="salaryList" item="item" separator=";">
+            insert into tb_salary(salary_id,department_id,role_id,user_id,should_salary,rewards,five_insurancefund,individual_tax,actual_salary,achievements,apply_time,status)
+            values(
+            #{item.salaryId},
+            #{item.departmentId},
+            #{item.roleId},
+            #{item.userId},
+            #{item.shouldSalary},
+            #{item.rewards},
+            #{item.fiveInsurancefund},
+            #{item.individualTax},
+            #{item.actualSalary},
+            #{item.achievements},
+            #{item.applyTime},
+            #{item.status})
+        </foreach>
+    </insert>
+    <select id="userList" resultType="com.aaa.entity.SysUser" parameterType="String">
+        select * from sys_user where user_number = #{userNumber}
+    </select>
+
+    <select id="selectSalaryPage" resultType="java.util.HashMap" >
+        select a.*, b.login_name,c.department_name,d.role_name from tb_salary a
+        join sys_user b on a.user_id = b.user_id
+        join tb_department c on a.department_id = c.department_id
+        join sys_role d on a.role_id = d.role_id
+        <where>
+            <if test="login_name!=null and login_name!=''">
+                and b.login_name like concat('%',#{login_name},'%')
+            </if>
+            <if test="department_name!=null and department_name!=''">
+                and c.department_name like concat('%',#{department_name},'%')
+            </if>
+            <if test="role_name!=null and role_name!=''">
+                and d.role_name like concat('%',#{role_name},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectRoleNameAndDepart" resultType="java.util.HashMap" parameterType="java.lang.Integer">
+        select a.role_name,b.department_name from sys_role a JOIN
+        tb_department b on a.data_scope = b.department_id where role_id = #{roleId}
+    </select>
+
+    <!--使用foreach 循环新增-->
+
+
+
+
+</mapper>

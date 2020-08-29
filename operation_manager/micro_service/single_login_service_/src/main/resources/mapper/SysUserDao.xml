@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.sls.dao.SysUserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aaa.sls.entity.SysUser">
+        <id column="user_id" property="userId" />
+        <result column="role_id" property="roleId" />
+        <result column="department_id" property="departmentId" />
+        <result column="login_name" property="loginName" />
+        <result column="user_number" property="userNumber" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="salt" property="salt" />
+        <result column="email" property="email" />
+        <result column="phonenumber" property="phonenumber" />
+        <result column="sex" property="sex" />
+        <result column="avatar" property="avatar" />
+        <result column="status" property="status" />
+        <result column="del_flag" property="delFlag" />
+        <result column="login_ip" property="loginIp" />
+        <result column="login_date" property="loginDate" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id AS userId, role_id AS roleId, department_id AS departmentId, login_name AS loginName, user_number AS userNumber, user_name AS userName, password, salt, email, phonenumber, sex, avatar, status, del_flag AS delFlag, login_ip AS loginIp, login_date AS loginDate, create_by AS createBy, create_time AS createTime, update_by AS updateBy, update_time AS updateTime, remark
+    </sql>
+
+</mapper>

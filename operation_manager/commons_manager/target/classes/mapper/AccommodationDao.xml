@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.AccommodationDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aaa.entity.Accommodation">
+        <id column="accommodation_id" property="accommodationId" />
+        <result column="user_id" property="userId" />
+        <result column="user_number" property="userNumber" />
+        <result column="user_name" property="userName" />
+        <result column="department_id" property="departmentId" />
+        <result column="user_gender" property="userGender" />
+        <result column="floor_num" property="floorNum" />
+        <result column="room_number" property="roomNumber" />
+        <result column="checkin_time" property="checkinTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        accommodation_id AS accommodationId, user_id AS userId, user_number AS userNumber, user_name AS userName, department_id AS departmentId, user_gender AS userGender, floor_num AS floorNum, room_number AS roomNumber, checkin_time AS checkinTime, status
+    </sql>
+    <select id="selectAccDept" resultType="java.util.HashMap">
+        SELECT * from tb_accommodation a,tb_department b where a.department_id=b.department_id
+    </select>
+
+</mapper>

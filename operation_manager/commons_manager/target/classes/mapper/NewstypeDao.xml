@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.NewstypeDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aaa.entity.Newstype">
+        <id column="newstype_id" property="newstypeId" />
+        <result column="newstype_name" property="newstypeName" />
+        <result column="newstype_remark" property="newstypeRemark" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        newstype_id AS newstypeId, newstype_name AS newstypeName, newstype_remark AS newstypeRemark, status
+    </sql>
+
+</mapper>

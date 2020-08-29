@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.SalaryadvanceDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aaa.entity.Salaryadvance">
+        <id column="advance_salaryid" property="advanceSalaryid" />
+        <result column="user_id" property="userId" />
+        <result column="department_id" property="departmentId" />
+        <result column="role_id" property="roleId" />
+        <result column="settle_time" property="settleTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        advance_salaryid AS advanceSalaryid, user_id AS userId, department_id AS departmentId, role_id AS roleId, settle_time AS settleTime
+    </sql>
+
+</mapper>

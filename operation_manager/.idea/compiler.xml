@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="accommodation_service" />
+        <module name="commons_manager" />
+        <module name="eureka_registry" />
+        <module name="funcitonTree" />
+        <module name="news_service" />
+        <module name="promotion_service" />
+        <module name="salary_service" />
+        <module name="single_login_service_" />
+        <module name="zuul" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

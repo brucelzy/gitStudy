@@ -1,0 +1,37 @@
+{
+  "groups": [
+    {
+      "name": "oss",
+      "type": "com.aaa.property.OssProperties",
+      "sourceType": "com.aaa.property.OssProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "oss.access-key-id",
+      "type": "java.lang.String",
+      "sourceType": "com.aaa.property.OssProperties"
+    },
+    {
+      "name": "oss.access-key-secret",
+      "type": "java.lang.String",
+      "sourceType": "com.aaa.property.OssProperties"
+    },
+    {
+      "name": "oss.bucket-name",
+      "type": "java.lang.String",
+      "sourceType": "com.aaa.property.OssProperties"
+    },
+    {
+      "name": "oss.endpoint",
+      "type": "java.lang.String",
+      "sourceType": "com.aaa.property.OssProperties"
+    },
+    {
+      "name": "oss.url",
+      "type": "java.lang.String",
+      "sourceType": "com.aaa.property.OssProperties"
+    }
+  ],
+  "hints": []
+}

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>新闻页面</title>
+		
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="../../css/index.css">
+		<link rel="stylesheet" href="../../css/elementui.css">
+		<!-- 引入组件库 -->
+		
+		<script src="../../js/vue.js"></script>
+		<script src="../../js/jquery-3.4.1.min.js"></script>
+		<script src="../../js/elementui.js"></script>
+		<style>
+			.avatar-uploader .el-upload {
+			    border: 1px dashed #d9d9d9;
+			    border-radius: 6px;
+			    cursor: pointer;
+			    position: relative;
+			    overflow: hidden;
+			}
+			.avatar-uploader .el-upload:hover {
+			    border-color: #409EFF;
+			}
+			.avatar-uploader-icon {
+			    font-size: 28px;
+			    color: #8c939d;
+			    width: 100px;
+			    height: 100px;
+			    line-height: 100px;
+			    text-align: center;
+			}
+			
+			table{
+				font-size: 16px;
+				text-align: center;
+			}
+		   #app{
+			
+			   margin: 0 auto;
+			   padding: 5px 10px;
+			   width: 99%;
+		   }
+		   .el-table th>.cell{
+			   font-size: 20px;
+			   color: #000000;
+			   font-weight: bolder;
+			   text-align: center;
+			   
+		   } 
+		   
+		   .el-table__row .cell{
+			   text-align: center;
+			   font-size: 15px;
+		   }
+		   .head_sec{
+			   margin-bottom: 15px;
+	
+		   }
+		   .el-table__row .el-table_1_column_3 .cell{ 
+			   width: 100%;
+			   white-space: nowrap; //不换行
+			   text-overflow: ellipsis; //超出部分用....代替
+			   overflow: hidden; //超出隐藏
+		   }
+		 .head_sec .el-input {
+			 
+			 width: 11%;
+		 }
+	
+		 #search_gap{
+			 margin-right: 51%;
+		 }
+		
+		</style>
+	</head>
+	<body>
+
+		<div id="app">
+			<div class="head_sec">
+				<el-button @click="dialogTableVisible=true" class="el-button el-button--primary el-button--small" type="button"
+				 size="small">发布新闻</el-button>
+
+				<el-button @click="delMoreBtn()" class="el-button el-button--danger el-button--small" id="search_gap" type="button"
+				 size="small">批量删除</el-button>
+
+
+				<el-input v-model="newsTitle" placeholder="请输入新闻标题"></el-input>
+				<el-input v-model="newsType" placeholder="请输入新闻类型"></el-input>
+				<el-input v-model="createTime" placeholder="请输入内容" type="date"></el-input>
+				<el-button @click="searchBtn()" type="primary" icon="el-icon-search" size="small" style="height: 40px;">搜索</el-button>
+
+			</div>
+
+			<!--表格部分开始-->
+			<el-row>
+				<el-table :header-cell-style="{background:'#E4E7ED'}" :data="tableData" style="width: 100%" :default-sort="{prop: 'news_id', order: 'descending'}"
+				 @selection-change="changeFun">
+
+					<el-table-column type="selection" prop="news_id">
+					</el-table-column>
+					<el-table-column prop="newstype_name" label="新闻类型">
+					</el-table-column>
+
+					<el-table-column prop="news_title" label="新闻标题" show-overflow-tooltip="true">
+					</el-table-column>
+					<el-table-column prop="news_introduce" label="新闻内容" show-overflow-tooltip="true">
+					</el-table-column>
+					<el-table-column prop="create_username" label="创建人">
+					</el-table-column>
+					<el-table-column prop="create_time" label="创建时间">
+					</el-table-column>
+					<el-table-column prop="enclosure_name" label="文件名" type="file">
+						　
+						<!-- <template slot-scope="scope">
+			                    <el-image
+			                            style="width: 50px; height: 50px"
+			                            :src="scope.row.avatar"
+			                             ></el-image>
+			                 </template>
+			                <!--<img :src="avatar" class="userAvatar"
+			                     style="display: block;width: 50px;height: 50px;
+			                 border-radius: 50%;-webkit-border-radius: 50%;
+			                 -moz-border-radius: 50%;
+			                 border: 4px solid #44576b;box-sizing: border-box;margin: 10px auto 10px;">-->
+					</el-table-column>
+					<el-table-column label="文件存储路径" show-overflow-tooltip="true">
+						<template slot-scope="scope">
+							<el-image style="width: 70px; height: 70px" :src="scope.row.enclosure_path"></el-image>
+						</template>
+					</el-table-column>
+					<el-table-column label="操作">
+						<template slot-scope="scope">
+							<!--此时点击修改 scope.row就会得到改行数据，作为参数传递-->
+							<el-button @click="toUpdate(scope.row)" type="success" size="small">修改</el-button>
+							<el-button @click="toDel(scope.row)" type="danger" size="small">删除</el-button>
+						</template>
+					</el-table-column>
+
+				</el-table>
+			</el-row>
+			<!-- 表格部分结束 -->
+			<div style="text-align: center;margin-top: 20px;">
+				<!--分页条-->
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page.pageNum"
+				 :page-sizes="[4, 8, 16, 24]" :page-size="page.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="page.pagetotal">
+				</el-pagination>
+			</div>
+
+			<!-- 新增模态框 -->
+
+			<el-dialog title="发布新闻" :visible.sync="dialogTableVisible" :close-on-click-modal='false'>
+				<el-form :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+					<el-form-item label="新闻标题" prop="newsTitle">
+						<el-input v-model="ruleForm.newsTitle"></el-input>
+					</el-form-item>
+					<el-form-item label="新闻类型" prop="newsType">
+						<el-select v-model="ruleForm.newsType" placeholder="请选择新闻类型">
+							<el-option v-for="item in newsTypeOption" :key="item.newstypeId" :label="item.newstypeName" :value="item.newstypeId">
+
+							</el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="新闻内容" prop="newsIntroduce">
+						<el-input type="textarea" v-model="ruleForm.newsIntroduce"></el-input>
+					</el-form-item>
+					<el-form-item label="发布时间" required>
+						<el-col :span="24">
+							<el-form-item prop="createTime">
+								<el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.createTime" style="width: 100%;"></el-date-picker>
+							</el-form-item>
+						</el-col>
+
+					</el-form-item>
+					<el-form-item label="附件标题" prop="enclosureName">
+						<el-input v-model="ruleForm.enclosureName"></el-input>
+					</el-form-item>
+
+					<el-form-item label="选择附件" :label-width="formLabelWidth">
+						<el-upload class="avatar-uploader" action="http://192.168.20.23:8888/ns/commonOSS/upload" name="file"
+						 :auto-upload='true' :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+							<img v-if="imageUrl" :src="imageUrl" class="avatar" id="img_del" width="105px" height="120px">
+							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+						</el-upload>
+					</el-form-item>
+
+					<el-form-item>
+						<el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+						<el-button @click="resetForm('ruleForm')">重置</el-button>
+					</el-form-item>
+				</el-form>
+				<span slot="footer" class="dialog-footer">
+					<el-button @click="dialogTableVisible = false">取 消</el-button>
+					<el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+				</span>
+			</el-dialog>
+			<!--新增模态框结束-->
+
+
+			<!-- 修改模态框 -->
+
+			<el-dialog title="修改新闻" :visible.sync="dialogTableVisible_U" :close-on-click-modal='false'>
+				<!-- :model 表格数据放到这里 -->
+				<el-form :model="ruleForm_u" ref="ruleForm_u" label-width="100px" class="demo-ruleForm">
+					<el-form-item label="新闻标题">
+						<el-input v-model="ruleForm_u.newsTitle"></el-input>
+					</el-form-item>
+					<el-form-item label="新闻类型">
+						<el-select v-model="ruleForm_u.newsType" placeholder="请选择新闻类型">
+							<el-option v-for="item in newsTypeOption" :key="item.newstypeId" :label="item.newstypeName" :value="item.newstypeId">
+
+							</el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="新闻内容">
+						<el-input type="textarea" v-model="ruleForm_u.newsIntroduce"></el-input>
+					</el-form-item>
+					<el-form-item label="发布时间" required>
+						<el-col :span="24">
+							<el-form-item prop="createTime">
+								<el-date-picker type="date" placeholder="选择日期" v-model="ruleForm_u.createTime" style="width: 100%;"></el-date-picker>
+							</el-form-item>
+						</el-col>
+
+					</el-form-item>
+					<el-form-item label="附件标题">
+						<el-input v-model="ruleForm_u.enclosureName"></el-input>
+					</el-form-item>
+
+					<el-form-item label="选择附件">
+						<el-image v-if="(ruleForm_u.enclosurePath==''||ruleForm_u.enclosurePath==null)?false:true" style="width: 100px; height: 100px"
+						 :src="ruleForm_u.enclosurePath" id="img_del2"></el-image>
+						<el-upload class="avatar-uploader" action="http://192.168.20.23:8888/ns/commonOSS/upload" name="file"
+						 :auto-upload='true' :show-file-list="false" :on-success="handleAvatarSuccess_u" :before-upload="beforeAvatarUpload_u">
+							<img v-if="imageUrl" :src="imageUrl" class="avatar"  width="105px" height="120px">
+							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+						</el-upload>
+					</el-form-item>
+
+					<el-form-item>
+						<el-button type="primary" @click="submitForm_u('ruleForm_u')">立即创建</el-button>
+						<el-button @click="resetForm('ruleForm_u')">重置</el-button>
+					</el-form-item>
+				</el-form>
+				<span slot="footer" class="dialog-footer">
+					<el-button @click="dialogTableVisible_U = false">取 消</el-button>
+					<el-button type="primary" @click="dialogTableVisible_U = false">确 定</el-button>
+				</span>
+			</el-dialog>
+			<!--修改模态框结束-->
+		</div>
+	</body>
+	<script>
+		var temp = new Vue({
+			el: "#app",
+			data: { //数据
+				tableData: [], //表格数据
+				newsTypeOption: [], //下拉框数据
+				currentPage: 1,
+				newsTitle: '',
+				newsType: '',
+				createTime: '',
+				imageUrl: '', //图片路径
+				mutipleSelection: [], //多选框值
+				page: {
+					pageNum: 1,
+					pageSize: 4,
+					pagetotal: 0
+				},
+				ruleForm: {
+					newsTitle: '',
+					newsType: '',
+					newsIntroduce: '',
+					createTime: '',
+					enclosureName: '',
+					enclosurePath: ''
+				},
+				ruleForm_u: {
+					newsTitle: '',
+					newsType: '',
+					newsIntroduce: '',
+					createTime: '',
+					enclosureName: '',
+					enclosurePath: '',
+					newsId: ''
+				},
+				dialogTableVisible: false, //新增模态框
+				dialogTableVisible_U: false //修改模态框
+			},
+			methods: {
+				//模糊查询
+				searchBtn:function(){
+			
+					loadPage();
+				},
+				// 新增dialog提交
+				submitForm: function(ruleForm) {
+					_this = this;
+					//JSON.stringify JSON 转 String
+					// alert(JSON.stringify(this.form));
+					axios.post('http://192.168.20.23:8888/ns/news/addNewsInfo', _this.ruleForm).then(function(response) {
+						console.log(response);
+						if (response.status == 200) {
+							//提示成功
+							_this.$message({
+								message: '恭喜您，新闻发布成功',
+								type: 'success'
+							});
+							_this.$refs[ruleForm].resetFields();
+							$("#img_del").attr("src", "");
+							//关闭弹出框
+							_this.dialogTableVisible = false;
+
+							loadPage();
+						}
+					});
+
+				},
+				//修改dialog提交
+				submitForm_u: function(ruleForm_u) {
+					_this = this;
+					axios.put('http://192.168.20.23:8888/ns/news/updateNewsInfo', _this.ruleForm_u).then(function(response) {
+						if (response.status == 200) {
+							//提示成功
+							_this.$message({
+								message: '恭喜您，新闻修改成功',
+								type: 'success',
+							});
+
+					
+							//关闭弹出框
+							_this.dialogTableVisible_U = false;
+
+							loadPage();
+						}
+					});
+				},
+				// 清空新增dialog
+				resetForm: function(ruleForm) {
+					// 清空表单
+					this.$refs[ruleForm].resetFields();
+					$("#img_del").attr("src", "");
+				},
+				//单个删除
+				toDel: function(rowData) {
+					_this = this;
+					console.log(rowData);
+					axios.put('http://192.168.20.23:8888/ns/news/deleteSingleNew', JSON.stringify({
+						newsId: rowData.news_id
+					}), {
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					}).then(function(response) {
+						if (response.status == 200) {
+							//提示成功
+							_this.$message({
+								message: '恭喜您，新闻删除成功',
+								type: 'success'
+							});
+							loadPage();
+						}
+					});
+				},
+				changeFun: function(idArrays) {
+					temp.mutipleSelection = idArrays; // 返回的是选中的列的数组集合
+					console.log(temp.mutipleSelection); //不加temp的话会报未定义
+
+				},
+				//批量删除
+				delMoreBtn: function(ids) {
+					_this = this;
+					//console.log(temp.mutipleSelection[0].news_id);
+					var idArrays = new Array();
+					for (var i = 0; i < temp.mutipleSelection.length; i++) {
+						idArrays.push(temp.mutipleSelection[i].news_id)
+					}
+					console.log(idArrays);
+					axios.put('http://192.168.20.23:8888/ns/news/deleteMoreNews', JSON.stringify(idArrays), {
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					}).then(function(response) {
+						if (response.status == 200) {
+							//提示成功
+							_this.$message({
+								message: '恭喜您，新闻批量删除成功',
+								type: 'success'
+							});
+							loadPage();
+						}
+					});
+					//alert(mutipleSelection);
+				},
+				//点击修改 模态框显示
+				toUpdate: function(rowData) {
+					axios.get('http://192.168.20.23:8888/ns/news/selectByIdNew', {
+						params: {
+							newsId: rowData.news_id
+						}
+					}).then(function(response) {
+						var resultDatas = response.data;
+						temp.ruleForm_u.newsTitle = resultDatas.newsTitle;
+						temp.ruleForm_u.newsType = resultDatas.newsType;
+						temp.ruleForm_u.newsIntroduce = resultDatas.newsIntroduce;
+						temp.ruleForm_u.createTime = resultDatas.createTime;
+						temp.ruleForm_u.enclosureName = resultDatas.enclosureName;
+						temp.ruleForm_u.enclosurePath = resultDatas.enclosurePath;
+						temp.ruleForm_u.newsId = resultDatas.newsId;
+						/* 	this.ruleForm_u.newsTitle = resultDatas.newsTitle;
+							this.ruleForm_u.newsType = resultDatas.newsType;
+							this.ruleForm_u.newsIntroduce = resultDatas.newsIntroduce;
+							this.ruleForm_u.createTime = resultDatas.createTime;
+							this.ruleForm_u.enclosureName = resultDatas.enclosureName;
+							this.ruleForm_u.enclosurePath = resultDatas.enclosurePath; */
+					});
+
+					this.dialogTableVisible_U = true;
+
+				},
+				//点击新增按钮 模态框显示
+				addBtn: function() {
+
+					this.dialogTableVisible = true;
+
+				},
+				handleSizeChange: function(val) {
+					console.log("每页" + val + "条");
+					temp.page.pageSize = val;
+					loadPage();
+
+				},
+				handleCurrentChange: function(val) {
+					console.log("当前页:" + val);
+					temp.page.pageNum = val;
+					loadPage();
+				},
+				//图片上传成功后
+				handleAvatarSuccess: function(res, file) {
+					//图片回显
+					this.imageUrl = URL.createObjectURL(file.raw);
+					//   alert(file.response);
+					// alert(JSON.stringify(file.response));
+					//ossFileUrlBoot在后台处理过 内部放的是路径
+					this.ruleForm.enclosurePath = file.response.ossFileUrlBoot;
+					// this.form.fileName=file.response.oldFileName;
+					// this.form.filePath=file.response.newFilePath;
+				},
+				//上传前图片类型和大小判断
+				beforeAvatarUpload: function(file) {
+					// const isJPG = file.type === 'image/jpeg';
+					const isLt2M = file.size / 1024 / 1024 < 100;
+
+					/* if (!isJPG) {
+					     this.$message.error('上传头像图片只能是 JPG 格式!');
+					 }*/
+					if (!isLt2M) {
+						this.$message.error('上传头像图片大小不能超过 100MB!');
+					}
+					return isLt2M;
+				},
+
+				//图片上传成功后
+				handleAvatarSuccess_u: function(res, file) {
+					//图片回显
+					this.imageUrl = URL.createObjectURL(file.raw);
+					//   alert(file.response);
+					// alert(JSON.stringify(file.response));
+					//ossFileUrlBoot在后台处理过 内部放的是路径
+					this.ruleForm_u.enclosurePath = file.response.ossFileUrlBoot;
+					//this.$("#img_del2").css('display','none');
+					// this.form.fileName=file.response.oldFileName;
+					// this.form.filePath=file.response.newFilePath;
+				},
+				//上传前图片类型和大小判断
+				beforeAvatarUpload_u: function(file) {
+					// const isJPG = file.type === 'image/jpeg';
+					const isLt2M = file.size / 1024 / 1024 < 100;
+					console.log("文件大小:"+file.size);
+					/* if (!isJPG) {
+					     this.$message.error('上传头像图片只能是 JPG 格式!');
+					 }*/
+					if (!isLt2M) {
+						this.$message.error('上传头像图片大小不能超过 100MB!');
+					}
+					return isLt2M;
+				}
+			},
+
+
+		});
+		loadPage();
+
+		function loadPage() {
+			var pageData ={"pageSize":temp.page.pageSize,"pageNum":temp.page.pageNum,"newsTitle":temp.newsTitle,
+			"newsType":temp.newsType,"createTime":temp.createTime};
+			console.log(pageData);
+			$.ajax({
+				url: "http://192.168.20.23:8888/ns/news/newsPage",
+				type: "get",
+				dataType: "json",
+				contentType: "application/json",
+				data: pageData,
+				success: function(resultData) {
+					temp.tableData = resultData.list;
+					temp.page.pagetotal = resultData.total;
+				}
+			});
+		};
+
+		$().ready(function() {
+			//查新闻类型
+
+			$.ajax({
+				url: "http://192.168.20.23:8888/ns/newsType/getNewsType",
+				type: "get",
+				dataType: "json",
+				async:false,
+				contentType: "application/json",
+				data: {},
+				success: function(resultDatas) {
+					temp.newsTypeOption = resultDatas;
+				}
+			});
+
+		});
+	</script>
+</html>

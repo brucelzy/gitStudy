@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.PromotionapplyDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aaa.entity.Promotionapply">
+        <id column="promotion_applyid" property="promotionApplyid" />
+        <result column="promotion_id" property="promotionId" />
+        <result column="apply_userid" property="applyUserid" />
+        <result column="apply_name" property="applyName" />
+        <result column="work_name" property="workName" />
+        <result column="apply_time" property="applyTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        promotion_applyid AS promotionApplyid, promotion_id AS promotionId, apply_userid AS applyUserid, apply_name AS applyName, work_name AS workName, apply_time AS applyTime
+    </sql>
+
+</mapper>

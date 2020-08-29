@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.AttendanceDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aaa.entity.Attendance">
+        <id column="attendance_id" property="attendanceId" />
+        <result column="user_number" property="userNumber" />
+        <result column="user_name" property="userName" />
+        <result column="department_id" property="departmentId" />
+        <result column="punchclock_time" property="punchclockTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        attendance_id AS attendanceId, user_number AS userNumber, user_name AS userName, department_id AS departmentId, punchclock_time AS punchclockTime, status
+    </sql>
+
+     <insert id="dynamicAddAttendace" parameterType="com.aaa.entity.Attendance">
+         insert into tb_attendance VALUES(null,#{userNumber},#{userName},#{departmentId},(select NOW()),
+         IF(((select SUBSTR((select NOW()) FROM 12))>'08:00:00'),0,1));
+     </insert>
+
+    <select id="selectLaterOutFive" resultType="com.aaa.entity.Attendance" parameterType="java.lang.String">
+        select * from tb_attendance where status=0 GROUP BY user_number having count(*)>=5 and (select SUBSTR(punchclock_time FROM 6 FOR 2)) = #{month}
+    </select>
+
+    <select id="selectLaterLessFive" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select *,count(*) as laterTimes from tb_attendance where status =0 GROUP BY user_number
+        having 5 > laterTimes and (select SUBSTR((select NOW())  FROM 6 FOR 2)) = #{month}
+    </select>
+    <select id="selectNoLater" resultType="com.aaa.entity.Attendance">
+        select *  from tb_attendance where status =1 GROUP BY user_number having count(*) >=20
+    </select>
+
+    <select id="attendancePageInfo" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        select a.*,b.department_name from tb_attendance a
+        join tb_department b on a.department_id=b.department_id
+        <where>
+            <if test="map.get('user_number')!=null and map.get('user_number')!=''">
+                and a.user_number = #{map.get('user_number')}
+            </if>
+            <if test="map.get('department_name')!=null and map.get('department_name')!=''">
+                and b.department_name like concat('%',#{map.get('department_name')},'%')
+            </if>
+            <if test="map.get('')!=null and createTime!=''">
+                and a.punchcolock_time = #{map.get('punchcolock_time')}
+            </if>
+        </where>
+    </select>
+    <select id="selectAttendanceDay" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select * from tb_attendance where user_number=#{userNumber}
+        and SUBSTR(punchclock_time FROM 1 FOR 10)=(select SUBSTRING((select NOW()) FROM 1 FOR 10))
+    </select>
+
+</mapper>

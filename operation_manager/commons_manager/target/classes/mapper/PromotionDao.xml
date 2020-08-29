@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.dao.PromotionDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aaa.entity.Promotion">
+        <id column="promotion_id" property="promotionId" />
+        <result column="department_id" property="departmentId" />
+        <result column="need_people" property="needPeople" />
+        <result column="describe" property="describe" />
+        <result column="postduty" property="postduty" />
+        <result column="work_position" property="workPosition" />
+        <result column="create_time" property="createTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        promotion_id AS promotionId, department_id AS departmentId, need_people AS needPeople, describe, postduty, work_position AS workPosition, create_time AS createTime, status
+    </sql>
+    <select id="selectPromotionDepart" resultType="java.util.HashMap" parameterType="java.lang.String">
+        select a.*,b.department_name from tb_promotion a join
+        tb_department b on a.department_id = b.department_id
+        <where>
+            <if test="departmentName!=null and departmentName!=''">
+                and b.department_name like concat('%',#{departmentName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectPromotionRole" resultType="java.util.HashMap" parameterType="java.lang.Integer">
+       select role_name from sys_role where role_id =(
+        select work_position from tb_promotion where promotion_id = #{promotionId}
+    )
+    </select>
+
+</mapper>
